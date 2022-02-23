@@ -126,7 +126,11 @@
           iterations.push([letter, index]);
         });
 
-        expect(iterations).to.eql(['a', 'b', 'c']);
+        expect(iterations).to.eql([
+          ['a', 0],
+          ['b', 1],
+          ['c', 2]
+        ]);
       });
 
       it('should iterate over arrays and provide access to the original collection', function() {
