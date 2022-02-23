@@ -220,20 +220,14 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    // check type of elements collection
-    // loop through the collection pass each element to iterator then add to result(a num)
+    // check to see accumulator is given
+    // if given then accumulator is the given accumulator otherwise accumulator is first element of the collection
+    // loop through the collection pass each element to iterator then add to result(no need to specify a type, the "+=" works for both number and string)
 
     var result;
     for (var i = 0; i < collection.length; i++) {
-      if (typeof collection[i] === 'number') {
-        result = 0;
         result += iterator(collection[i]);
-      }
-
-      console.log('result', result);
     }
-
-    // check whether accumulator is given if given add to result if not return result
     if (accumulator !== undefined) {
       result += accumulator;
     }
