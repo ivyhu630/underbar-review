@@ -80,17 +80,87 @@
   };
 
   // Return all elements of an array that pass a truth test.
-  _.filter = function(collection, test) {
+  _.filter = function(collection, test) { // test = function
+    // creat a return array[]
+    // check null input for collection at the beginning, return result(which is []) if true
+    // for loop
+    // if test: push element
+    // return result
+
+    // (test) ? output true: output false;
+    var result = [];
+
+
+    for (var i = 0; i < collection.length; i++) {
+      if (test(collection[i])) {
+
+        // console.log(collection[i]);
+        // console.log(test(collection[i]));
+        // console.log('test', test);
+        result.push(collection[i]);//
+      }
+    }
+
+    return result;
+
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var result = [];
+    // create a non-result list using filter
+    var nonresult = _.filter(collection, test);
+    // loop through each collection element
+    for (var i = 0; i < collection.length; i++) {
+      if (!nonresult.includes(collection[i])) {
+        result.push(collection[i]);
+      }
+    }
+    // for each collection element if it's in the non-result array then skip the element otherwise add it to result array
+    // check element in array: testArray.includes(element)
+    // subtract result of filter from collection
+
+
+    return result;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    // initiate result array
+    var result = [];
+    // create an object: seen keeping track of element count
+    var countobject = {};
+    for (var i = 0; i < array.length; i++) {
+      var count = 1;
+      if (countobject[array[i]] === undefined) {
+        countobject[array[i]] = count;
+      } else {
+        countobject[array[i]]++;
+      }
+    }
+
+    // result is all key: Object.keys(nameForObject) -- this output to an array
+
+    for (var key in countobject) {
+      // IF （iterator(element)) {push}
+
+      // if iterator is undefined - push all key
+      // else test iterator is true then push
+      if (iterator === undefined) {
+        result.push(Number(key));
+      } else {
+        if (iterator(Number(key))) { // number should be right before key
+          result.push(Number(key)); // need to convert to num
+        }
+      }
+    }
+
+    // loop through the result array and convert each element to be a number instead of strin
+    return result;
+
+
   };
 
 
@@ -99,6 +169,16 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+
+    //  initiate result array
+    var result = [];
+    // for loop apply iterator for each element
+    for (var i = 0; i < collection.length; i++) {
+      result.push(iterator(collection[i]));
+    }
+    // return array
+    return result;
+
   };
 
   /*
@@ -140,6 +220,26 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    // check type of elements collection
+    // loop through the collection pass each element to iterator then add to result(a num)
+
+    var result;
+    for (var i = 0; i < collection.length; i++) {
+      if (typeof collection[i] === 'number') {
+        result = 0;
+        result += iterator(collection[i]);
+      }
+
+      console.log('result', result);
+    }
+
+    // check whether accumulator is given if given add to result if not return result
+    if (accumulator !== undefined) {
+      result += accumulator;
+    }
+    return result;
+
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
