@@ -253,24 +253,69 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
-        return true;
+
+
+    if (!Array.isArray(collection) ) {
+        var convert = Object.values(collection);
+
+      } else {
+        convert = collection;
       }
+
+      return _.reduce(convert, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
       return item === target;
     }, false);
+
+
+
+      // approach 2:
+    // var res = false;
+    // if (Array.isArray(collection) ) {
+    //   return _.reduce(collection, function(wasFound, item) {
+    //     if (wasFound) {
+    //       return true;
+    //     }
+    //   return item === target;
+    // }, false);
+    // } else {
+    //   _.each(collection, function(value, key, collection) {
+    //     if (value === target) {
+    //       res = true;
+    //     }
+    //   })
+    // }
+    // return res;
+
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-  };
+    return _.reduce(collection, function(trueSoFar, item) {  // Alternatively instead of using Boolean() can add !! to convert truthy value as strickly true
+      // if find one false foundFalse becomes false
+      if (iterator === undefined) {  // checking iterator can use iterator = iterator || _.identity to see iterator as _.identity
+        return trueSoFar && Boolean(item);
+      } else {
+        return trueSoFar && Boolean(iterator(item));
+      }
+    }, true);
+  }
+
+
+
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity;
+    return !_.every(collection, function(element) {
+      return !iterator(element);
+    });
   };
 
 
