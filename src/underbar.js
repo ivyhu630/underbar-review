@@ -220,21 +220,34 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    // check to see accumulator is given
-    // if given then accumulator is the given accumulator otherwise accumulator is first element of the collection
-    // loop through the collection pass each element to iterator then add to result(no need to specify a type, the "+=" works for both number and string)
+
 
     var result;
-    for (var i = 0; i < collection.length; i++) {
-        result += iterator(collection[i]);
-    }
-    if (accumulator !== undefined) {
-      result += accumulator;
-    }
-    return result;
+    if (accumulator === undefined) {
+      // check to see accumulator is given
+      // if given then accumulator is the given accumulator
+      // otherwise accumulator is first element of the collection
+      accumulator = collection[0];
+      // do a for loop but start from second element
+      for (var i = 1; i < collection.length; i++) {
+        accumulator = iterator(accumulator, collection[i]);
+      }
 
+    }
+
+    // loop through the collection pass each element to iterator then add to result(no need to specify a type, the "+=" works for both number and string)
+    // put below into else
+    else {
+      for (var i = 0; i < collection.length; i++) {
+        accumulator = iterator(accumulator, collection[i]); //  replate accumulator with the result of the iterator}
+      }
+    }
+
+
+    return accumulator;
 
   };
+
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
