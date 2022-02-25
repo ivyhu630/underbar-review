@@ -338,11 +338,43 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    _.each(arguments, function(source) {
+      _.each(source, function(value, key) {
+        obj[key] = value;
+      });
+    });
+    return obj;
+
+    // w/o using hof
+    // var res = arguments[0];
+    // var n = arguments.length;
+    // function add(original,addOn) {
+    //   for (var key in addOn) {
+    //     original[key] = addOn[key];
+    //   }
+    //   return original;
+    // }
+
+    // for (var i = 0; i < n; i++) {
+    //   if( i == 0) {
+    //     continue;
+    //   }
+    //   add(res,arguments[i]);
+    // }
+    // return res;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    _.each(arguments, function(source) {
+      _.each(source, function(value, key) {
+        if (!obj.hasOwnProperty(key)) {
+          obj[key] = value;
+        }
+      });
+    });
+    return obj;
   };
 
 
@@ -386,6 +418,18 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var seen = {};
+    return function() {
+      var key = JSON.stringify(arguments);
+      if (!seen.hasOwnProperty(key)) {
+
+        seen[key] = func.apply(this, arguments);
+
+      }
+      return seen[key];
+
+    };
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
