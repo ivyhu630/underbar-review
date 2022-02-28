@@ -89,20 +89,17 @@
 
     // (test) ? output true: output false;
     var result = [];
-
-
-    for (var i = 0; i < collection.length; i++) {
-      if (test(collection[i])) {
-
-        // console.log(collection[i]);
-        // console.log(test(collection[i]));
-        // console.log('test', test);
-        result.push(collection[i]);//
+    _.each(collection, function(value) {
+      if (test(value)) {
+        result.push(value);
       }
-    }
-
+    });
+    // for (var i = 0; i < collection.length; i++) {
+    //   if (test(collection[i])) {
+    //     result.push(collection[i]);
+    //   }
+    // }
     return result;
-
   };
 
   // Return all elements of an array that don't pass a truth test.
@@ -256,22 +253,22 @@
 
 
     if (!Array.isArray(collection) ) {
-        var convert = Object.values(collection);
+      var convert = Object.values(collection);
 
-      } else {
-        convert = collection;
+    } else {
+      convert = collection;
+    }
+
+    return _.reduce(convert, function(wasFound, item) {
+      if (wasFound) {
+        return true;
       }
-
-      return _.reduce(convert, function(wasFound, item) {
-        if (wasFound) {
-          return true;
-        }
       return item === target;
     }, false);
 
 
 
-      // approach 2:
+    // approach 2:
     // var res = false;
     // if (Array.isArray(collection) ) {
     //   return _.reduce(collection, function(wasFound, item) {
