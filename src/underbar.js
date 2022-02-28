@@ -458,7 +458,14 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var res = array.slice();
-
+    var size = res.length;
+    for (let i = size - 1; i > 0; i--) {
+      var newIndex = Math.floor(Math.random() * (i + 1));
+      var temp = res[i];
+      res[i] = res[newIndex];
+      res[newIndex] = temp;
+    }
+    return res;
   };
 
 
